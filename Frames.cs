@@ -13,13 +13,14 @@ namespace MacroscopPlayer
 {
     class Frames
     {
-        static public void SaveFrames(string url, string savePath)
+        public static void SaveFrames(/*string url,*/ string savePath) // Sometime this function will work with URL, but now there is local file which divides into JPEGs
+                                                                       // I save it previously using the "HttpAnalyzerStdV7".
         {
             WebClient wc = new WebClient();            
 
             Thread t = new Thread(() =>
             {
-                byte[] data = File.ReadAllBytes(savePath + "MacroscopStreamRoad");
+                byte[] data = File.ReadAllBytes(savePath + "MacroscopStreamRoad"); // Road for example
 
                 int framesCount = 0;
                 byte prev = 0;
@@ -70,5 +71,7 @@ namespace MacroscopPlayer
 
             t.Start();
         }
+
+        
     }
 }
