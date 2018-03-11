@@ -29,6 +29,12 @@ namespace MacroscopPlayer
             InitializeComponent();
 
             ChannelsToComboBox(configURL); // Now this text only is displayed
+
+            if (!Directory.Exists(projectPath + @"frames"))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(projectPath + @"frames");
+            }
+            
         }
         
         private void DrawBtn_Click(object sender, RoutedEventArgs e)
