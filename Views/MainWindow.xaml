@@ -25,10 +25,10 @@
             HorizontalAlignment="Center" 
             VerticalAlignment="Center"
             SelectedIndex="0">
-            
-            <TextBlock>Entrance</TextBlock>
+
+            <!--<TextBlock>Entrance</TextBlock>
             <TextBlock>Corridor</TextBlock>
-            <!--<TextBlock>Road</TextBlock>
+            <TextBlock>Road</TextBlock>
             <TextBlock>Parking</TextBlock>-->
         </ComboBox>
 

@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
@@ -38,7 +39,7 @@ namespace MacroscopPlayer
         {
 
         }
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,29 +47,21 @@ namespace MacroscopPlayer
             RenderIDs(configAddress);
         }
 
-        private void RenderIDs (string xmlAddress)
+        private void RenderIDs(string xmlAddress)
         {
             XmlDocument doc = MakeConfigRequest(configAddress);
             XmlElement root = doc.DocumentElement;
+            XmlNodeList childnodes = root.SelectNodes("//Channels/ChannelInfo");
 
-            int attrCount = 0;
-            foreach (XmlNode node in root)
+            foreach (XmlNode node in childnodes)
             {
-                foreach (XmlNode node2 in node)
+                XmlNode id = node.Attributes.GetNamedItem("Id");
+                XmlNode name = node.Attributes.GetNamedItem("Name");
+                if (id != null)
                 {
-                    attrCount++;
-                    if (node2.Attributes.Count > 0)
-                    {
-                        XmlNode id = node2.Attributes.GetNamedItem("Id");
-                        XmlNode name = node2.Attributes.GetNamedItem("Name");
-                        if (id != null)
-                        {
-                            Logs.AppendText(id.Value + " — " + name.Value + "\n");
-                        }
-                    }
+                    camList.Items.Add(name.Value + " — " + id.Value);
                 }
             }
-            doc.Save("cams.xml");
         }
 
         private XmlDocument MakeConfigRequest(string query)
@@ -83,6 +76,28 @@ namespace MacroscopPlayer
         }
         private void DrawBtn_Click(object sender, RoutedEventArgs e)
         {
+            //Thread th = new Thread(DrawFrame);
+            //th.Start();
+
+            //for (int i = 1; i <= GetFilesInDirectory(projectPath + @"frames\").Length; i++)
+            //{
+
+            //    string framePath = projectPath + @"frames\frame" + i + ".jpg";
+            //    using (MemoryStream s = new MemoryStream(File.ReadAllBytes(framePath)))
+            //    {
+            //        // Thread.Sleep(40); // 1000 ms / 25 frames per second
+
+            //        BitmapImage b = new BitmapImage();
+
+            //        b.BeginInit();
+            //        b.StreamSource = s;
+            //        b.EndInit();
+
+            //        // Logs.AppendText("Rendered: " + Convert.ToString(b.UriSource) + "\n");
+            //        VideoPlayer.Source = b; // почему поток тупит, не отрисовывает, а только по прошествии цикла рисует последнюю картинку?
+            //    }
+            //}
+
             for (int i = 1; i <= GetFilesInDirectory(projectPath + @"frames\").Length; i++)
             {
                 Thread.Sleep(40); // 1000 ms / 25 frames per second
@@ -98,7 +113,21 @@ namespace MacroscopPlayer
             }
         }
 
-        private FileInfo[] GetFilesInDirectory (string path)
+        private void DrawFrame()
+        {
+
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
+             {
+                 for (int i = 0; i < 5; i++)
+                 {
+                     Logs.AppendText("Lalala" + i + "\n");
+                 }
+             });
+
+
+        }
+
+        private FileInfo[] GetFilesInDirectory(string path)
         {
             System.IO.DirectoryInfo info = new System.IO.DirectoryInfo(path);
             System.IO.DirectoryInfo[] dirs = info.GetDirectories();

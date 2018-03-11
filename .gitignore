@@ -13,7 +13,7 @@
 *.userprefs
 
 # Build results
-frames/*.html
+frames/*.jpg
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
