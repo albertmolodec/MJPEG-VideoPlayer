@@ -30,6 +30,8 @@ namespace MacroscopPlayer
         string idParking = "e6f2848c-f361-44b9-bbec-1e54eae777c0";
         string projectPath = AppDomain.CurrentDomain.BaseDirectory + @"..\..\";
         string configAddress = "http://demo.macroscop.com:8080/configex?login=root";
+        int framesBeginCount = 0;
+        int framesEndCount = 0;
 
 
         public void MPJEGViewer(string id)
